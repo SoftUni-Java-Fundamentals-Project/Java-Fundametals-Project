@@ -1,4 +1,4 @@
-package bg.softuni.model;
+package bg.softuni.minesweeper.model;
 
 public enum Cell {
 

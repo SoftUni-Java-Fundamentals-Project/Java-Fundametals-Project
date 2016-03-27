@@ -1,4 +1,4 @@
-package bg.softuni;
+package bg.softuni.minesweeper;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,7 +1,7 @@
-package bg.softuni;
+package bg.softuni.minesweeper;
 
-import bg.softuni.model.ElapsedTime;
-import bg.softuni.model.Field;
+import bg.softuni.minesweeper.model.ElapsedTime;
+import bg.softuni.minesweeper.model.Field;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,8 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-
-import java.util.function.Consumer;
 
 public class Controller {
 

@@ -1,4 +1,4 @@
-package bg.softuni.model;
+package bg.softuni.minesweeper.model;
 
 import java.time.Duration;
 import java.time.Instant;
