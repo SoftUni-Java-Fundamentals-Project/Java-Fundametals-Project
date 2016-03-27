@@ -1,26 +1,44 @@
 package bg.softuni.minesweeper.model;
 
-public enum Cell {
+import java.util.Objects;
 
-    Empty(' '),
-    One('1'),
-    Two('2'),
-    Three('3'),
-    Four('4'),
-    Five('5'),
-    Six('6'),
-    Seven('7'),
-    Eight('8'),
-    Mine('*');
+public class Cell {
 
-    private final Character value;
+    private int row;
+    private int column;
 
-    Cell(Character value) {
-        this.value = value;
+    public Cell(int row, int column) {
+        this.row = row;
+        this.column = column;
+    }
+
+    public int getRow() {
+        return this.row;
+    }
+
+    public int getColumn() {
+        return this.column;
     }
 
     @Override
-    public String toString() {
-        return this.value.toString();
+    public boolean equals(Object o) {
+
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Cell cell = (Cell) o;
+
+        return getRow() == cell.getRow() &&
+                getColumn() == cell.getColumn();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getRow(), getColumn());
     }
 }

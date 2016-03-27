@@ -6,3 +6,7 @@
 .button.clicked {
     -fx-background-color: gray;
 }
+
+.button.boom {
+    -fx-background-color: red;
+}

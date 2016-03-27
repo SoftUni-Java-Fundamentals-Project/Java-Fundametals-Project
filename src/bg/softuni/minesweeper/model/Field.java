@@ -1,6 +1,6 @@
 package bg.softuni.minesweeper.model;
 
-import java.util.Random;
+import java.util.*;
 
 public class Field {
 
@@ -9,14 +9,14 @@ public class Field {
     private int rows;
     private int columns;
     private int minesCount;
-    private bg.softuni.minesweeper.model.Cell[][] minesCells;
+    private CellValue[][] minesCells;
 
     public Field(int rows, int columns, int minesCount) {
 
         this.rows = rows;
         this.columns = columns;
         this.minesCount = minesCount;
-        this.minesCells = new bg.softuni.minesweeper.model.Cell[rows][columns];
+        this.minesCells = new CellValue[rows][columns];
 
         placeMines();
         placeHints();
@@ -35,16 +35,54 @@ public class Field {
     }
 
     public boolean isMine(int row, int column) {
-        return getCell(row, column) == bg.softuni.minesweeper.model.Cell.Mine;
+        return getCellValue(row, column) == CellValue.Mine;
     }
 
-    public bg.softuni.minesweeper.model.Cell getCell(int row, int column) {
+    public CellValue getCellValue(Cell cell) {
+        return this.getCellValue(cell.getRow(), cell.getColumn());
+    }
 
-        if (row < 0 || row >= this.rows || column < 0 || column >= this.columns) {
-            return bg.softuni.minesweeper.model.Cell.Empty;
+    public CellValue getCellValue(int row, int column) {
+
+        if (this.isOutside(row, column)) {
+            return CellValue.Empty;
         }
 
         return this.minesCells[row][column];
+    }
+
+    public Collection<Cell> getAdjacentCells(int row, int column) {
+
+        if (this.isMine(row, column)) {
+            throw new IllegalStateException("Cannot get adjacent cells for a mine.");
+        }
+
+        Collection<Cell> result = new HashSet<>();
+        Queue<Cell> queue = new LinkedList<>();
+        Cell current = new Cell(row, column);
+        queue.add(current);
+
+        while (!queue.isEmpty()) {
+
+            current = queue.remove();
+            row = current.getRow();
+            column = current.getColumn();
+
+            if (this.minesCells[row][column] == CellValue.Empty && !result.contains(current)) {
+                this.addAdjacentCell(queue, row - 1, column - 1);
+                this.addAdjacentCell(queue, row - 1, column);
+                this.addAdjacentCell(queue, row - 1, column + 1);
+                this.addAdjacentCell(queue, row, column - 1);
+                this.addAdjacentCell(queue, row, column + 1);
+                this.addAdjacentCell(queue, row + 1, column - 1);
+                this.addAdjacentCell(queue, row + 1, column);
+                this.addAdjacentCell(queue, row + 1, column + 1);
+            }
+
+            result.add(current);
+        }
+
+        return result;
     }
 
     private void placeMines() {
@@ -54,8 +92,8 @@ public class Field {
             int row = random.nextInt(this.rows);
             int column = random.nextInt(this.columns);
 
-            if (this.minesCells[row][column] != bg.softuni.minesweeper.model.Cell.Mine) {
-                this.minesCells[row][column] = bg.softuni.minesweeper.model.Cell.Mine;
+            if (this.minesCells[row][column] != CellValue.Mine) {
+                this.minesCells[row][column] = CellValue.Mine;
                 minesPlaced++;
             }
         }
@@ -64,14 +102,18 @@ public class Field {
     private void placeHints() {
         for (int row = 0; row < this.rows; row++) {
             for (int column = 0; column < this.columns; column++) {
-                if (this.minesCells[row][column] != bg.softuni.minesweeper.model.Cell.Mine) {
+                if (this.minesCells[row][column] != CellValue.Mine) {
                     this.minesCells[row][column] = this.minesNear(row, column);
                 }
             }
         }
     }
 
-    private bg.softuni.minesweeper.model.Cell minesNear(int row, int column) {
+    private boolean isOutside(int row, int column) {
+        return row < 0 || row >= this.rows || column < 0 || column >= this.columns;
+    }
+
+    private CellValue minesNear(int row, int column) {
 
         int hintValue = 0;
 
@@ -84,10 +126,19 @@ public class Field {
         hintValue += this.getMine(row + 1, column);      // S
         hintValue += this.getMine(row + 1, column + 1);  // SE
 
-        return bg.softuni.minesweeper.model.Cell.values()[hintValue];
+        return CellValue.values()[hintValue];
     }
 
     private int getMine(int row, int column) {
         return this.isMine(row, column) ? 1 : 0;
+    }
+
+    private void addAdjacentCell(Queue<Cell> queue, int row, int column) {
+
+        if (isOutside(row, column) || isMine(row, column)) {
+            return;
+        }
+
+        queue.add(new Cell(row, column));
     }
 }

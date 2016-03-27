@@ -1,10 +1,12 @@
 package bg.softuni.minesweeper;
 
+import bg.softuni.minesweeper.model.Cell;
 import bg.softuni.minesweeper.model.ElapsedTime;
 import bg.softuni.minesweeper.model.Field;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -22,11 +24,13 @@ public class Controller {
     private GridPane visualField;
 
     private Field field;
-
     private ElapsedTime timer;
 
+    private Button[][] visualButtons;
+
     public Controller() {
-        this.field = new Field(20, 20, 20);
+        this.field = new Field(20, 20, 90);
+        this.visualButtons = new Button[this.field.getRows()][this.field.getColumns()];
     }
 
     @FXML
@@ -61,25 +65,46 @@ public class Controller {
     private void addVisualCells() {
         for (int row = 0; row < this.field.getRows(); row++) {
             for (int column = 0; column < this.field.getColumns(); column++) {
-                this.visualField.add(createVisualButton(column, row), column, row);
+                this.visualButtons[row][column] = createVisualButton(row, column);
+                this.visualField.add(this.visualButtons[row][column], column, row);
             }
         }
     }
 
-    private Button createVisualButton(int column, int row) {
+    private Button createVisualButton(int row, int column) {
 
         Button cellButton = new Button();
-        cellButton.setOnMouseClicked(getMouseEventEventHandler(cellButton, column, row));
+        cellButton.setOnMouseClicked(getMouseEventEventHandler(row, column));
         cellButton.setPrefWidth(25.0);
         cellButton.setPrefHeight(25.0);
 
         return cellButton;
     }
 
-    private EventHandler<MouseEvent> getMouseEventEventHandler(Button cellButton, int column, int row) {
+    private EventHandler<MouseEvent> getMouseEventEventHandler(int row, int column) {
         return event -> {
-            cellButton.setText(this.field.getCell(row, column).toString());
-            cellButton.getStyleClass().add("clicked");
+            if (this.field.isMine(row, column)) {
+                Button cellButton = this.visualButtons[row][column];
+                cellButton.setText(this.field.getCellValue(row, column).toString());
+                cellButton.getStyleClass().add("boom");
+                this.endGame();
+            } else {
+                for (Cell cell : this.field.getAdjacentCells(row, column)) {
+                    Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
+                    cellButton.setText(this.field.getCellValue(cell).toString());
+                    cellButton.getStyleClass().add("clicked");
+                }
+            }
         };
+    }
+
+    private void endGame() {
+
+        this.timer.stop();
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Game over");
+        alert.setHeaderText("The game, you have lost");
+        alert.show();
     }
 }
