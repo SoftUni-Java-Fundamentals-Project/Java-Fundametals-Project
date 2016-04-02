@@ -10,6 +10,7 @@ public class Field {
     private int columns;
     private int minesCount;
     private CellValue[][] minesCells;
+    private HashSet<Cell> flagsCells;
 
     public Field(int rows, int columns, int minesCount) throws IllegalArgumentException {
 
@@ -17,6 +18,7 @@ public class Field {
         this.columns = columns;
         this.minesCount = minesCount;
         this.minesCells = new CellValue[rows][columns];
+        this.flagsCells = new HashSet<>();
 
         placeMines();
         placeHints();
@@ -31,7 +33,20 @@ public class Field {
     }
 
     public int getMinesCount() {
-        return this.minesCount;
+        return this.minesCount - this.flagsCells.size();
+    }
+
+    public boolean toggleFlag(int row, int column) {
+
+        Cell cell = new Cell(row, column);
+
+        if (this.flagsCells.contains(cell)) {
+            this.flagsCells.remove(cell);
+            return false;
+        } else {
+            this.flagsCells.add(cell);
+            return true;
+        }
     }
 
     public boolean isMine(int row, int column) {
@@ -87,7 +102,7 @@ public class Field {
 
     private void placeMines() throws IllegalArgumentException {
 
-        if((this.getRows()*this.getColumns())<this.getMinesCount()){
+        if ((this.getRows() * this.getColumns()) < this.getMinesCount()) {
             throw new IllegalArgumentException("The mines' count can't be greater than the count of filed cells!");
         }
         for (int minesPlaced = 0; minesPlaced < this.minesCount; ) {

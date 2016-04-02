@@ -1,6 +1,7 @@
 package bg.softuni.minesweeper;
 
 import bg.softuni.minesweeper.model.Cell;
+import bg.softuni.minesweeper.model.CellValue;
 import bg.softuni.minesweeper.model.ElapsedTime;
 import bg.softuni.minesweeper.model.Field;
 import javafx.application.Platform;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -79,36 +81,60 @@ public class Controller {
 
         Button cellButton = new Button();
         cellButton.setOnMouseClicked(getMouseEventEventHandler(row, column));
-        cellButton.setPrefWidth(25.0);
-        cellButton.setPrefHeight(25.0);
+        cellButton.setPrefWidth(30.0);
+        cellButton.setPrefHeight(30.0);
 
         return cellButton;
     }
 
     private EventHandler<MouseEvent> getMouseEventEventHandler(int row, int column) {
         return event -> {
-            if (this.field.isMine(row, column)) {
-                Button cellButton = this.visualButtons[row][column];
-                cellButton.setText(this.field.getCellValue(row, column).toString());
-                cellButton.getStyleClass().add("boom");
-                this.endGame();
-            } else {
-                for (Cell cell : this.field.getAdjacentCells(row, column)) {
-                    Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
-                    cellButton.setText(this.field.getCellValue(cell).toString());
-                    cellButton.getStyleClass().add("clicked");
+            if (event.getButton() == MouseButton.PRIMARY) {
+                if (this.field.isMine(row, column)) {
+                    endGame(row, column);
+                } else {
+                    openCell(row, column);
                 }
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                toggleFlag(row, column);
             }
+
         };
     }
 
-    private void endGame() {
+    private void endGame(int row, int column) {
+        Button cellButton = this.visualButtons[row][column];
+        cellButton.setText(this.field.getCellValue(row, column).toString());
+        cellButton.getStyleClass().add("boom");
 
         this.timer.stop();
 
+        this.showEndGameAlert();
+    }
+
+    private void showEndGameAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Game over");
         alert.setHeaderText("The game, you have lost");
         alert.show();
+    }
+
+    private void openCell(int row, int column) {
+        for (Cell cell : this.field.getAdjacentCells(row, column)) {
+            Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
+            cellButton.setText(this.field.getCellValue(cell).toString());
+            cellButton.getStyleClass().add("clicked");
+        }
+    }
+
+    private void toggleFlag(int row, int column) {
+        Button cellButton = this.visualButtons[row][column];
+
+        if (this.field.toggleFlag(row, column)) {
+            cellButton.setText(CellValue.Flag.toString());
+        } else {
+            cellButton.setText("");
+        }
+        this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
     }
 }

@@ -11,7 +11,9 @@ public enum CellValue {
     Six('6'),
     Seven('7'),
     Eight('8'),
-    Mine('*');
+    Mine('*'),
+    Flag('P');
+
 
     private final Character value;
 
