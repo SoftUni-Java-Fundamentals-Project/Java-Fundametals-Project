@@ -9,6 +9,8 @@ public class Field {
     private int rows;
     private int columns;
     private int minesCount;
+    private int totalCount;
+    private int openedCount;
     private CellValue[][] minesCells;
     private HashSet<Cell> flagsCells;
 
@@ -17,6 +19,7 @@ public class Field {
         this.rows = rows;
         this.columns = columns;
         this.minesCount = minesCount;
+        this.totalCount = rows * columns;
         this.minesCells = new CellValue[rows][columns];
         this.flagsCells = new HashSet<>();
 
@@ -53,7 +56,9 @@ public class Field {
         return getCellValue(row, column) == CellValue.Mine;
     }
 
-    public CellValue getCellValue(Cell cell) {
+    public CellValue openCell(Cell cell)
+    {
+        this.openedCount++;
         return this.getCellValue(cell.getRow(), cell.getColumn());
     }
 
@@ -64,6 +69,10 @@ public class Field {
         }
 
         return this.minesCells[row][column];
+    }
+
+    public boolean isSolved() {
+        return this.openedCount + this.minesCount == this.totalCount;
     }
 
     public Collection<Cell> getAdjacentCells(int row, int column) {

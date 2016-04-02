@@ -132,6 +132,9 @@ public class MainController {
                 toggleFlag(row, column);
             }
 
+            if (this.field.isSolved()) {
+                this.winGame();
+            }
         };
     }
 
@@ -155,7 +158,7 @@ public class MainController {
     private void openCell(int row, int column) {
         for (Cell cell : this.field.getAdjacentCells(row, column)) {
             Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
-            cellButton.setText(this.field.getCellValue(cell).toString());
+            cellButton.setText(this.field.openCell(cell).toString());
             cellButton.getStyleClass().add("clicked");
         }
     }
@@ -171,6 +174,19 @@ public class MainController {
         }
 
         this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
+    }
+
+    private void winGame() {
+        this.timer.stop();
+        this.isGameOver = true;
+        this.showWinGameAlert();
+    }
+
+    private void showWinGameAlert(){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("You are the winner!");
+        alert.setHeaderText("The game you have won!");
+        alert.show();
     }
 
     @FXML
