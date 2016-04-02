@@ -28,7 +28,7 @@ public class Controller {
 
     private Button[][] visualButtons;
 
-    public Controller() {
+    public Controller() throws Exception {
         this.field = new Field(20, 20, 90);
         this.visualButtons = new Button[this.field.getRows()][this.field.getColumns()];
     }
@@ -44,6 +44,10 @@ public class Controller {
         this.addVisualCells();
 
         this.timer.start();
+    }
+
+    public void stop() {
+        this.timer.stop();
     }
 
     private void updateTimeLabel(String value) {

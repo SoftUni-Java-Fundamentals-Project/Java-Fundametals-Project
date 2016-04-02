@@ -8,14 +8,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    private FXMLLoader fxmlLoader;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/main.fxml"));
+        this.fxmlLoader = new FXMLLoader();
+        this.fxmlLoader.setLocation(getClass().getResource("view/main.fxml"));
         primaryStage.setTitle("Minesweeper");
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(new Scene(this.fxmlLoader.load()));
         primaryStage.show();
         setMinMaxSize(primaryStage, primaryStage.getHeight(), primaryStage.getWidth());
+    }
 
+    @Override
+    public void stop() throws Exception {
+        ((Controller) this.fxmlLoader.getController()).stop();
     }
 
     private void setMinMaxSize(Stage primaryStage, double height, double width) {

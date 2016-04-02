@@ -11,7 +11,7 @@ public class Field {
     private int minesCount;
     private CellValue[][] minesCells;
 
-    public Field(int rows, int columns, int minesCount) {
+    public Field(int rows, int columns, int minesCount) throws IllegalArgumentException {
 
         this.rows = rows;
         this.columns = columns;
@@ -85,8 +85,11 @@ public class Field {
         return result;
     }
 
-    private void placeMines() {
+    private void placeMines() throws IllegalArgumentException {
 
+        if((this.getRows()*this.getColumns())<this.getMinesCount()){
+            throw new IllegalArgumentException("The mines' count can't be greater than the count of filed cells!");
+        }
         for (int minesPlaced = 0; minesPlaced < this.minesCount; ) {
 
             int row = random.nextInt(this.rows);
