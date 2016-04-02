@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<VBox stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="bg.softuni.minesweeper.NewGameController">
+    <children>
+        <Button text="Easy" onMouseClicked="#onEasyClicked"></Button>
+        <Button text="Medium" onMouseClicked="#onMediumClicked"></Button>
+        <Button text="Hard" onMouseClicked="#onHardClicked"></Button>
+        <Button text="Extremely Hard" onMouseClicked="#onExtremeClicked"></Button>
+        </children>
+    </VBox>

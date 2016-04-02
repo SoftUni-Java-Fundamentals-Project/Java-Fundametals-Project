@@ -1,12 +1,12 @@
 package bg.softuni.minesweeper;
 
-import bg.softuni.minesweeper.model.Cell;
-import bg.softuni.minesweeper.model.CellValue;
-import bg.softuni.minesweeper.model.ElapsedTime;
-import bg.softuni.minesweeper.model.Field;
+import bg.softuni.minesweeper.model.*;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,8 +15,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-public class Controller {
+import java.io.IOException;
+
+public class MainController {
 
     @FXML
     private Label timeLabel;
@@ -27,25 +31,38 @@ public class Controller {
 
     private Field field;
     private ElapsedTime timer;
-
     private Button[][] visualButtons;
+    private boolean isGameOver;
+    private Stage stage;
 
-    public Controller() throws Exception {
-        this.field = new Field(20, 20, 90);
-        this.visualButtons = new Button[this.field.getRows()][this.field.getColumns()];
-    }
+    public void setField(Field field) {
 
-    @FXML
-    private void initialize() {
+        this.isGameOver = false;
+        if (this.timer != null) {
+            this.timer.stop();
+        }
 
+        this.field = field;
+        this.visualButtons = new Button[field.getRows()][field.getColumns()];
+        this.minesCountLabel.setText(Integer.toString(field.getMinesCount()));
         this.timer = new ElapsedTime(this::updateTimeLabel);
-        this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
 
+        this.clearVisualGrid();
         this.addVisualColumns();
         this.addVisualLines();
         this.addVisualCells();
 
         this.timer.start();
+        this.sizeToScene();
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    @FXML
+    private void initialize() {
+        this.setField(Difficulty.Medium.createField());
     }
 
     public void stop() {
@@ -54,6 +71,12 @@ public class Controller {
 
     private void updateTimeLabel(String value) {
         Platform.runLater(() -> this.timeLabel.setText(value));
+    }
+
+    private void clearVisualGrid() {
+        this.visualField.getColumnConstraints().clear();
+        this.visualField.getRowConstraints().clear();
+        this.visualField.getChildren().clear();
     }
 
     private void addVisualColumns() {
@@ -87,8 +110,18 @@ public class Controller {
         return cellButton;
     }
 
+    private void sizeToScene() {
+        if (this.stage != null) {
+            this.stage.sizeToScene();
+        }
+    }
+
     private EventHandler<MouseEvent> getMouseEventEventHandler(int row, int column) {
         return event -> {
+            if (this.isGameOver) {
+                return;
+            }
+
             if (event.getButton() == MouseButton.PRIMARY) {
                 if (this.field.isMine(row, column)) {
                     endGame(row, column);
@@ -108,7 +141,7 @@ public class Controller {
         cellButton.getStyleClass().add("boom");
 
         this.timer.stop();
-
+        this.isGameOver = true;
         this.showEndGameAlert();
     }
 
@@ -128,6 +161,7 @@ public class Controller {
     }
 
     private void toggleFlag(int row, int column) {
+
         Button cellButton = this.visualButtons[row][column];
 
         if (this.field.toggleFlag(row, column)) {
@@ -135,6 +169,27 @@ public class Controller {
         } else {
             cellButton.setText("");
         }
+
         this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
+    }
+
+    @FXML
+    private void onNewGameClicked(ActionEvent actionEvent) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("view/newGame.fxml"));
+
+        Stage stage = new Stage();
+        stage.setTitle("New Game");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(new Scene(loader.load()));
+        stage.show();
+
+        ((NewGameController) loader.getController()).setParent(this);
+    }
+
+    @FXML
+    private void onQuitClicked(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
