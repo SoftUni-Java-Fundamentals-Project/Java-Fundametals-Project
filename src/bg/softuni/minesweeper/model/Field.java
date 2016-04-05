@@ -48,18 +48,18 @@ public class Field {
         if (this.flagsCells.contains(cell)) {
             this.flagsCells.remove(cell);
             return false;
-        } else {
+        } else if (this.getMinesCount() > 0) {
             this.flagsCells.add(cell);
             return true;
         }
+        return false;
     }
 
     public boolean isMine(int row, int column) {
         return getCellValue(row, column) == CellValue.Mine;
     }
 
-    public CellValue openCell(Cell cell)
-    {
+    public CellValue openCell(Cell cell) {
         this.openedCells.add(cell);
         this.flagsCells.remove(cell);
         return this.getCellValue(cell.getRow(), cell.getColumn());
