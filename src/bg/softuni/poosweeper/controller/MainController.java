@@ -141,7 +141,6 @@ public class MainController {
 
     private void endGame(int row, int column) {
         Button cellButton = this.visualButtons[row][column];
-        cellButton.setText(this.field.getCellValue(row, column).toString());
         cellButton.getStyleClass().add("boom");
 
         this.timer.stop();
@@ -160,6 +159,7 @@ public class MainController {
         for (Cell cell : this.field.getAdjacentCells(row, column)) {
             Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
             cellButton.setText(this.field.openCell(cell).toString());
+            cellButton.getStyleClass().remove("flagged");
             cellButton.getStyleClass().add("clicked");
         }
     }
@@ -169,9 +169,9 @@ public class MainController {
         Button cellButton = this.visualButtons[row][column];
 
         if (this.field.toggleFlag(row, column)) {
-            cellButton.setText(CellValue.Flag.toString());
+            cellButton.getStyleClass().add("flagged");
         } else {
-            cellButton.setText("");
+            cellButton.getStyleClass().remove("flagged");
         }
 
     }
@@ -193,7 +193,7 @@ public class MainController {
     private void onNewGameClicked(ActionEvent actionEvent) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("view/newGame.fxml"));
+        loader.setLocation(getClass().getResource("../view/newGame.fxml"));
 
         Stage stage = new Stage();
         stage.setTitle("New Game");

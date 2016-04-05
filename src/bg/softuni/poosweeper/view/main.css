@@ -1,12 +1,19 @@
 .button {
     -fx-border-width: 0;
     -fx-background-radius: 0;
+    -fx-background-repeat: stretch;
+    -fx-background-size: contain;
+    -fx-background-position: center center;
 }
 
 .button.clicked {
     -fx-background-color: gray;
 }
 
+.button.flagged {
+    -fx-background-image: url("../images/leaf.png");
+}
+
 .button.boom {
-    -fx-background-color: red;
+    -fx-background-image: url("../images/poo.png");
 }
