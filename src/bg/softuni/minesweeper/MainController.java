@@ -118,7 +118,7 @@ public class MainController {
 
     private EventHandler<MouseEvent> getMouseEventEventHandler(int row, int column) {
         return event -> {
-            if (this.isGameOver) {
+            if (this.isGameOver || this.field.isOpen(row, column)) {
                 return;
             }
 

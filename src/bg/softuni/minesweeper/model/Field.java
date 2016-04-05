@@ -13,6 +13,7 @@ public class Field {
     private int openedCount;
     private CellValue[][] minesCells;
     private HashSet<Cell> flagsCells;
+    private HashSet<Cell> openedCells;
 
     public Field(int rows, int columns, int minesCount) throws IllegalArgumentException {
 
@@ -22,6 +23,7 @@ public class Field {
         this.totalCount = rows * columns;
         this.minesCells = new CellValue[rows][columns];
         this.flagsCells = new HashSet<>();
+        this.openedCells = new HashSet<>();
 
         placeMines();
         placeHints();
@@ -58,8 +60,13 @@ public class Field {
 
     public CellValue openCell(Cell cell)
     {
-        this.openedCount++;
+        this.openedCells.add(cell);
         return this.getCellValue(cell.getRow(), cell.getColumn());
+    }
+
+    public boolean isOpen(int row, int col) {
+        Cell cell = new Cell(row, col);
+        return this.openedCells.contains(cell);
     }
 
     public CellValue getCellValue(int row, int column) {
@@ -72,7 +79,7 @@ public class Field {
     }
 
     public boolean isSolved() {
-        return this.openedCount + this.minesCount == this.totalCount;
+        return this.openedCells.size() + this.minesCount == this.totalCount;
     }
 
     public Collection<Cell> getAdjacentCells(int row, int column) {
