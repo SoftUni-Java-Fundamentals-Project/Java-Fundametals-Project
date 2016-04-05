@@ -1,6 +1,6 @@
-package bg.softuni.minesweeper;
+package bg.softuni.poosweeper.controller;
 
-import bg.softuni.minesweeper.model.Difficulty;
+import bg.softuni.poosweeper.model.Difficulty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;

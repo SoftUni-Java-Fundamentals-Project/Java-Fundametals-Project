@@ -1,5 +1,6 @@
-package bg.softuni.minesweeper;
+package bg.softuni.poosweeper;
 
+import bg.softuni.poosweeper.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,20 +8,21 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private FXMLLoader fxmlLoader;
+    public static final String TITLE = "Poosweeper";
+
     private MainController controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        this.fxmlLoader = new FXMLLoader();
-        this.fxmlLoader.setLocation(getClass().getResource("view/main.fxml"));
-        primaryStage.setTitle("Minesweeper");
-        primaryStage.setScene(new Scene(this.fxmlLoader.load()));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("view/main.fxml"));
+        primaryStage.setTitle(TITLE);
+        primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.show();
         primaryStage.setResizable(false);
         primaryStage.sizeToScene();
 
-        this.controller = this.fxmlLoader.getController();
+        this.controller = fxmlLoader.getController();
         this.controller.setStage(primaryStage);
     }
 

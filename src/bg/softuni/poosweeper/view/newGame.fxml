@@ -9,7 +9,7 @@
 <?import javafx.scene.text.*?>
 
 <VBox stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="bg.softuni.minesweeper.NewGameController">
+      fx:controller="bg.softuni.poosweeper.controller.NewGameController">
     <children>
         <Button text="Easy" onMouseClicked="#onEasyClicked"></Button>
         <Button text="Medium" onMouseClicked="#onMediumClicked"></Button>

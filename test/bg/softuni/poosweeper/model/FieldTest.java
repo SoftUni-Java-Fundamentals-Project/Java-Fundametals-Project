@@ -1,4 +1,4 @@
-package bg.softuni.minesweeper.model;
+package bg.softuni.poosweeper.model;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,13 +9,13 @@ public class FieldTest {
 
     private static final int ROWS = 20;
     private static final int COLUMNS = 25;
-    private static final int MINES_COUNT = 10;
+    private static final int POO_COUNT = 10;
 
     private Field field;
 
     @Before
     public void setUp() throws Exception {
-        this.field = new Field(ROWS, COLUMNS, MINES_COUNT);
+        this.field = new Field(ROWS, COLUMNS, POO_COUNT);
     }
 
     @Test
@@ -29,7 +29,7 @@ public class FieldTest {
     }
 
     @Test
-    public void getMinesCount() throws Exception {
-        assertEquals(this.field.getMinesCount(), MINES_COUNT);
+    public void getPooCount() throws Exception {
+        assertEquals(this.field.getPooCount(), POO_COUNT);
     }
 }

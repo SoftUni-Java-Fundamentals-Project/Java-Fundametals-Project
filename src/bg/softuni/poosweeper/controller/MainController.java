@@ -1,6 +1,6 @@
-package bg.softuni.minesweeper;
+package bg.softuni.poosweeper.controller;
 
-import bg.softuni.minesweeper.model.*;
+import bg.softuni.poosweeper.model.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,7 +25,7 @@ public class MainController {
     @FXML
     private Label timeLabel;
     @FXML
-    private Label minesCountLabel;
+    private Label pooCountLabel;
     @FXML
     private GridPane visualField;
 
@@ -44,7 +44,7 @@ public class MainController {
 
         this.field = field;
         this.visualButtons = new Button[field.getRows()][field.getColumns()];
-        this.minesCountLabel.setText(Integer.toString(field.getMinesCount()));
+        this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
         this.timer = new ElapsedTime(this::updateTimeLabel);
 
         this.clearVisualGrid();
@@ -123,7 +123,7 @@ public class MainController {
             }
 
             if (event.getButton() == MouseButton.PRIMARY && !this.field.isFlaged(row, column)) {
-                if (this.field.isMine(row, column)) {
+                if (this.field.isPoo(row, column)) {
                     endGame(row, column);
                 } else {
                     openCell(row, column);
@@ -131,7 +131,7 @@ public class MainController {
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 toggleFlag(row, column);
             }
-            this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
+            this.pooCountLabel.setText(Integer.toString(this.field.getPooCount()));
 
             if (this.field.isSolved()) {
                 this.winGame();

@@ -1,4 +1,4 @@
-package bg.softuni.minesweeper.model;
+package bg.softuni.poosweeper.model;
 
 public enum CellValue {
 
@@ -11,9 +11,8 @@ public enum CellValue {
     Six('6'),
     Seven('7'),
     Eight('8'),
-    Mine('*'),
+    Poo('*'),
     Flag('P');
-
 
     private final Character value;
 

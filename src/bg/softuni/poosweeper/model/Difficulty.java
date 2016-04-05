@@ -1,4 +1,4 @@
-package bg.softuni.minesweeper.model;
+package bg.softuni.poosweeper.model;
 
 
 public enum Difficulty {
@@ -9,15 +9,15 @@ public enum Difficulty {
     ExtremelyHard(28, 60, 200);
     private int rows;
     private int columns;
-    private int minesCount;
+    private int pooCount;
 
-    Difficulty(int rows, int columns, int minesCount) {
+    Difficulty(int rows, int columns, int pooCount) {
         this.rows = rows;
         this.columns = columns;
-        this.minesCount = minesCount;
+        this.pooCount = pooCount;
     }
 
     public Field createField() {
-        return new Field(rows, columns, minesCount);
+        return new Field(rows, columns, pooCount);
     }
 }

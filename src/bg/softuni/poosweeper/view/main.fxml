@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.softuni.minesweeper.MainController">
+<VBox stylesheets="@main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bg.softuni.poosweeper.controller.MainController">
     <children>
         <MenuBar VBox.vgrow="NEVER">
             <menus>
@@ -39,7 +39,7 @@
                     <children>
                         <GridPane fx:id="visualField" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
                         <Label fx:id="timeLabel" text="00:00" />
-                        <Label fx:id="minesCountLabel" alignment="CENTER_RIGHT" text="020" GridPane.columnIndex="1" />
+                        <Label fx:id="pooCountLabel" alignment="CENTER_RIGHT" text="020" GridPane.columnIndex="1" />
                     </children>
                 </GridPane>
             </children>

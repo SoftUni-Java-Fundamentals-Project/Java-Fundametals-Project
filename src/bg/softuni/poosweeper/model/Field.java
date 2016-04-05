@@ -1,4 +1,4 @@
-package bg.softuni.minesweeper.model;
+package bg.softuni.poosweeper.model;
 
 import java.util.*;
 
@@ -8,24 +8,24 @@ public class Field {
 
     private int rows;
     private int columns;
-    private int minesCount;
+    private int pooCount;
     private int totalCount;
-    private int openedCount;
-    private CellValue[][] minesCells;
+
+    private CellValue[][] pooCells;
     private HashSet<Cell> flagsCells;
     private HashSet<Cell> openedCells;
 
-    public Field(int rows, int columns, int minesCount) throws IllegalArgumentException {
+    public Field(int rows, int columns, int pooCount) throws IllegalArgumentException {
 
         this.rows = rows;
         this.columns = columns;
-        this.minesCount = minesCount;
+        this.pooCount = pooCount;
         this.totalCount = rows * columns;
-        this.minesCells = new CellValue[rows][columns];
+        this.pooCells = new CellValue[rows][columns];
         this.flagsCells = new HashSet<>();
         this.openedCells = new HashSet<>();
 
-        placeMines();
+        placePoo();
         placeHints();
     }
 
@@ -37,8 +37,8 @@ public class Field {
         return this.columns;
     }
 
-    public int getMinesCount() {
-        return this.minesCount - this.flagsCells.size();
+    public int getPooCount() {
+        return this.pooCount - this.flagsCells.size();
     }
 
     public boolean toggleFlag(int row, int column) {
@@ -48,15 +48,15 @@ public class Field {
         if (this.flagsCells.contains(cell)) {
             this.flagsCells.remove(cell);
             return false;
-        } else if (this.getMinesCount() > 0) {
+        } else if (this.getPooCount() > 0) {
             this.flagsCells.add(cell);
             return true;
         }
         return false;
     }
 
-    public boolean isMine(int row, int column) {
-        return getCellValue(row, column) == CellValue.Mine;
+    public boolean isPoo(int row, int column) {
+        return getCellValue(row, column) == CellValue.Poo;
     }
 
     public CellValue openCell(Cell cell) {
@@ -81,17 +81,17 @@ public class Field {
             return CellValue.Empty;
         }
 
-        return this.minesCells[row][column];
+        return this.pooCells[row][column];
     }
 
     public boolean isSolved() {
-        return this.openedCells.size() + this.minesCount == this.totalCount;
+        return this.openedCells.size() + this.pooCount == this.totalCount;
     }
 
     public Collection<Cell> getAdjacentCells(int row, int column) {
 
-        if (this.isMine(row, column)) {
-            throw new IllegalStateException("Cannot get adjacent cells for a mine.");
+        if (this.isPoo(row, column)) {
+            throw new IllegalStateException("Cannot get adjacent cells for a poo.");
         }
 
         Collection<Cell> result = new HashSet<>();
@@ -105,7 +105,7 @@ public class Field {
             row = current.getRow();
             column = current.getColumn();
 
-            if (this.minesCells[row][column] == CellValue.Empty && !result.contains(current)) {
+            if (this.pooCells[row][column] == CellValue.Empty && !result.contains(current)) {
                 this.addAdjacentCell(queue, row - 1, column - 1);
                 this.addAdjacentCell(queue, row - 1, column);
                 this.addAdjacentCell(queue, row - 1, column + 1);
@@ -122,19 +122,19 @@ public class Field {
         return result;
     }
 
-    private void placeMines() throws IllegalArgumentException {
+    private void placePoo() throws IllegalArgumentException {
 
-        if ((this.getRows() * this.getColumns()) < this.getMinesCount()) {
-            throw new IllegalArgumentException("The mines' count can't be greater than the count of filed cells!");
+        if ((this.getRows() * this.getColumns()) < this.getPooCount()) {
+            throw new IllegalArgumentException("The poo's count can't be greater than the count of filed cells!");
         }
-        for (int minesPlaced = 0; minesPlaced < this.minesCount; ) {
+        for (int pooPlaced = 0; pooPlaced < this.pooCount; ) {
 
             int row = random.nextInt(this.rows);
             int column = random.nextInt(this.columns);
 
-            if (this.minesCells[row][column] != CellValue.Mine) {
-                this.minesCells[row][column] = CellValue.Mine;
-                minesPlaced++;
+            if (this.pooCells[row][column] != CellValue.Poo) {
+                this.pooCells[row][column] = CellValue.Poo;
+                pooPlaced++;
             }
         }
     }
@@ -142,8 +142,8 @@ public class Field {
     private void placeHints() {
         for (int row = 0; row < this.rows; row++) {
             for (int column = 0; column < this.columns; column++) {
-                if (this.minesCells[row][column] != CellValue.Mine) {
-                    this.minesCells[row][column] = this.minesNear(row, column);
+                if (this.pooCells[row][column] != CellValue.Poo) {
+                    this.pooCells[row][column] = this.pooNear(row, column);
                 }
             }
         }
@@ -153,29 +153,29 @@ public class Field {
         return row < 0 || row >= this.rows || column < 0 || column >= this.columns;
     }
 
-    private CellValue minesNear(int row, int column) {
+    private CellValue pooNear(int row, int column) {
 
         int hintValue = 0;
 
-        hintValue += this.getMine(row - 1, column - 1);  // NW
-        hintValue += this.getMine(row - 1, column);      // N
-        hintValue += this.getMine(row - 1, column + 1);  // NE
-        hintValue += this.getMine(row, column - 1);      // W
-        hintValue += this.getMine(row, column + 1);      // E
-        hintValue += this.getMine(row + 1, column - 1);  // SW
-        hintValue += this.getMine(row + 1, column);      // S
-        hintValue += this.getMine(row + 1, column + 1);  // SE
+        hintValue += this.getPoo(row - 1, column - 1);  // NW
+        hintValue += this.getPoo(row - 1, column);      // N
+        hintValue += this.getPoo(row - 1, column + 1);  // NE
+        hintValue += this.getPoo(row, column - 1);      // W
+        hintValue += this.getPoo(row, column + 1);      // E
+        hintValue += this.getPoo(row + 1, column - 1);  // SW
+        hintValue += this.getPoo(row + 1, column);      // S
+        hintValue += this.getPoo(row + 1, column + 1);  // SE
 
         return CellValue.values()[hintValue];
     }
 
-    private int getMine(int row, int column) {
-        return this.isMine(row, column) ? 1 : 0;
+    private int getPoo(int row, int column) {
+        return this.isPoo(row, column) ? 1 : 0;
     }
 
     private void addAdjacentCell(Queue<Cell> queue, int row, int column) {
 
-        if (isOutside(row, column) || isMine(row, column)) {
+        if (isOutside(row, column) || isPoo(row, column)) {
             return;
         }
 
