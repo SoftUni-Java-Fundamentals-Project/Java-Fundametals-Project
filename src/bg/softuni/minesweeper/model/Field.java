@@ -61,12 +61,18 @@ public class Field {
     public CellValue openCell(Cell cell)
     {
         this.openedCells.add(cell);
+        this.flagsCells.remove(cell);
         return this.getCellValue(cell.getRow(), cell.getColumn());
     }
 
     public boolean isOpen(int row, int col) {
         Cell cell = new Cell(row, col);
         return this.openedCells.contains(cell);
+    }
+
+    public boolean isFlaged(int row, int col) {
+        Cell cell = new Cell(row, col);
+        return this.flagsCells.contains(cell);
     }
 
     public CellValue getCellValue(int row, int column) {
@@ -175,4 +181,6 @@ public class Field {
 
         queue.add(new Cell(row, column));
     }
+
+
 }

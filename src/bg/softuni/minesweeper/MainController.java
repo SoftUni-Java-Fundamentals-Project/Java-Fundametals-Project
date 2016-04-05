@@ -122,7 +122,7 @@ public class MainController {
                 return;
             }
 
-            if (event.getButton() == MouseButton.PRIMARY) {
+            if (event.getButton() == MouseButton.PRIMARY && !this.field.isFlaged(row, column)) {
                 if (this.field.isMine(row, column)) {
                     endGame(row, column);
                 } else {
@@ -131,6 +131,7 @@ public class MainController {
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 toggleFlag(row, column);
             }
+            this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
 
             if (this.field.isSolved()) {
                 this.winGame();
@@ -173,7 +174,6 @@ public class MainController {
             cellButton.setText("");
         }
 
-        this.minesCountLabel.setText(Integer.toString(this.field.getMinesCount()));
     }
 
     private void winGame() {
