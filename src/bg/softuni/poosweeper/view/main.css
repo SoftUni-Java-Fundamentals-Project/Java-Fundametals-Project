@@ -4,10 +4,20 @@
     -fx-background-repeat: stretch;
     -fx-background-size: contain;
     -fx-background-position: center center;
+    -fx-background-insets: 0,1,3;
+}
+
+.button:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 93% to 0% 100%, #a9a9a9 0%, #696969 100%),
+        #696969,
+        #dcdcdc,
+        radial-gradient(center 50% 50%, radius 100%, #d3d3d3, #808080);
 }
 
 .button.clicked {
-    -fx-background-color: gray;
+    -fx-background-color: #d3d3d3;
+        -fx-font-weight: bold;
 }
 
 .button.flagged {
