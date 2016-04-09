@@ -140,12 +140,23 @@ public class MainController {
     }
 
     private void endGame(int row, int column) {
-        Button cellButton = this.visualButtons[row][column];
-        cellButton.getStyleClass().add("boom");
+
+        this.showAllPoos();
 
         this.timer.stop();
         this.isGameOver = true;
-        this.showEndGameAlert();
+     //   this.showEndGameAlert();
+    }
+
+    private void showAllPoos() {
+        for (int row = 0; row < this.field.getRows(); row++) {
+            for (int column = 0; column < this.field.getColumns(); column++) {
+                if (this.field.isPoo(row, column)) {
+                    this.visualButtons[row][column].getStyleClass().add("boom");
+                }
+            }
+        }
+
     }
 
     private void showEndGameAlert() {
@@ -173,7 +184,6 @@ public class MainController {
         } else {
             cellButton.getStyleClass().remove("flagged");
         }
-
     }
 
     private void winGame() {
@@ -190,6 +200,26 @@ public class MainController {
     }
 
     @FXML
+    private void onNewGameEasyClicked(ActionEvent actionEvent) throws IOException {
+        this.setField(Difficulty.Easy.createField());
+    }
+
+    @FXML
+    private void onNewGameMediumClicked(ActionEvent actionEvent) throws IOException {
+
+        this.setField(Difficulty.Medium.createField());
+    }
+    @FXML
+    private void onNewGameHardClicked(ActionEvent actionEvent) throws IOException {
+
+        this.setField(Difficulty.Hard.createField());
+    }
+    @FXML
+    private void onNewGameInsaneClicked(ActionEvent actionEvent) throws IOException {
+        this.setField(Difficulty.ExtremelyHard.createField());
+
+    }
+
     private void onNewGameClicked(ActionEvent actionEvent) throws IOException {
 
         FXMLLoader loader = new FXMLLoader();
@@ -200,7 +230,6 @@ public class MainController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(new Scene(loader.load()));
         stage.show();
-
         ((NewGameController) loader.getController()).setParent(this);
     }
 

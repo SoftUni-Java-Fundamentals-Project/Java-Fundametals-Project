@@ -5,6 +5,8 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 
+import java.io.IOException;
+
 public class NewGameController {
 
     private MainController parent;

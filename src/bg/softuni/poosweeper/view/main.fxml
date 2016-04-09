@@ -14,7 +14,14 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onNewGameClicked" text="New Game" />
+                        <Menu mnemonicParsing="false" text="New game">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#onNewGameEasyClicked" text="Easy" />
+                                <MenuItem mnemonicParsing="false" onAction="#onNewGameMediumClicked" text="Medium" />
+                                <MenuItem mnemonicParsing="false" onAction="#onNewGameHardClicked" text="Hard" />
+                                <MenuItem mnemonicParsing="false" onAction="#onNewGameInsaneClicked" text="Insane" />
+                            </items>
+                        </Menu>
                         <MenuItem mnemonicParsing="false" onAction="#onQuitClicked" text="Quit" />
                     </items>
                 </Menu>

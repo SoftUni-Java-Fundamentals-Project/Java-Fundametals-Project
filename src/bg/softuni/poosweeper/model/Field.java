@@ -124,7 +124,7 @@ public class Field {
 
     private void placePoo() throws IllegalArgumentException {
 
-        if ((this.getRows() * this.getColumns()) < this.getPooCount()) {
+        if (this.totalCount < this.getPooCount()) {
             throw new IllegalArgumentException("The poo's count can't be greater than the count of filed cells!");
         }
         for (int pooPlaced = 0; pooPlaced < this.pooCount; ) {
