@@ -1,5 +1,9 @@
 package bg.softuni.poosweeper.model;
 
+/**
+ * An enumeration that represents all possible states of a matrix like
+ * {@link Field#pooCells}.
+ */
 public enum CellValue {
 
     Empty(' '),
@@ -16,6 +20,11 @@ public enum CellValue {
 
     private final Character value;
 
+    /**
+     * Creates an enumeration member with the specified char value to represent it.
+     *
+     * @param value the character representation.
+     */
     CellValue(Character value) {
         this.value = value;
     }
