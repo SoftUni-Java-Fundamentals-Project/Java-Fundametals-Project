@@ -21,9 +21,9 @@
 }
 
 .button.flagged {
-    -fx-background-image: url("../resources/images/leaf.png");
+    -fx-background-image: url("file:resources/images/leaf.png");
 }
 
 .button.boom {
-    -fx-background-image: url("../resources/images/poo.png");
+    -fx-background-image: url("file:resources/images/poo.png");
 }
