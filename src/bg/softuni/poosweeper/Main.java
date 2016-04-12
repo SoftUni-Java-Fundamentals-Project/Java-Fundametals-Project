@@ -4,6 +4,7 @@ import bg.softuni.poosweeper.controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -32,6 +33,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("view/main.fxml"));
 
+        primaryStage.getIcons().add(new Image("file:resources/images/icon.png"));
         primaryStage.setTitle(TITLE);
         primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.setResizable(false);
