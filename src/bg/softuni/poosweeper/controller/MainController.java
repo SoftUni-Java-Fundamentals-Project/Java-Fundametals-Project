@@ -219,6 +219,10 @@ public class MainController {
                 if (this.field.isPoo(row, column)&& !this.field.isFlaged(row, column)) {
                     this.visualButtons[row][column].getStyleClass().add("boom");
                 }
+
+                if (!this.field.isPoo(row, column) && this.field.isFlaged(row, column)) {
+                    this.visualButtons[row][column].getStyleClass().add("noPoo");
+                }
             }
         }
     }

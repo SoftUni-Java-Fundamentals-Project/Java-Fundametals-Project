@@ -27,8 +27,14 @@
 
 .button.boom {
     -fx-background-image: url("file:resources/images/poo.png");
+    -fx-background-color: #d3d3d3;
 }
 
 .button.clickedBoom {
     -fx-background-color: red;
+}
+
+.button.noPoo {
+    -fx-background-image: url("file:resources/images/incorrectFlag.png");
+    -fx-background-color: #d3d3d3;
 }
