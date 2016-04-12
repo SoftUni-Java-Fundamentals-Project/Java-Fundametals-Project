@@ -5,8 +5,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -208,9 +205,10 @@ public class MainController {
         this.visualButtons [row][column].getStyleClass().add("clickedBoom");
         this.showAllPoos();
 
+        Sound.playRandomFartClip();
+
         this.timer.stop();
         this.isGameOver = true;
-        //   this.showEndGameAlert();
     }
 
     private void showAllPoos() {
@@ -248,6 +246,7 @@ public class MainController {
     }
 
     private void winGame() {
+        Sound.playWinningClip();
         this.timer.stop();
         this.isGameOver = true;
         this.showWinGameAlert();
