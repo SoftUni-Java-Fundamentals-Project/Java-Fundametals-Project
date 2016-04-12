@@ -205,6 +205,7 @@ public class MainController {
 
     private void endGame(int row, int column) {
 
+        this.visualButtons [row][column].getStyleClass().add("clickedBoom");
         this.showAllPoos();
 
         this.timer.stop();
@@ -215,7 +216,7 @@ public class MainController {
     private void showAllPoos() {
         for (int row = 0; row < this.field.getRows(); row++) {
             for (int column = 0; column < this.field.getColumns(); column++) {
-                if (this.field.isPoo(row, column)) {
+                if (this.field.isPoo(row, column)&& !this.field.isFlaged(row, column)) {
                     this.visualButtons[row][column].getStyleClass().add("boom");
                 }
             }

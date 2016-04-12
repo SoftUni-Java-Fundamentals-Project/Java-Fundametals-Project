@@ -17,13 +17,18 @@
 
 .button.clicked {
     -fx-background-color: #d3d3d3;
-        -fx-font-weight: bold;
+    -fx-font-weight: bold;
 }
 
 .button.flagged {
     -fx-background-image: url("file:resources/images/leaf.png");
+    -fx-background-color: #d3d3d3;
 }
 
 .button.boom {
     -fx-background-image: url("file:resources/images/poo.png");
+}
+
+.button.clickedBoom {
+    -fx-background-color: red;
 }
