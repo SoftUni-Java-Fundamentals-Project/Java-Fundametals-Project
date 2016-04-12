@@ -15,7 +15,7 @@
             <MenuItem mnemonicParsing="false" onAction="#onQuitClicked" text="Quit"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About"/>
+            <MenuItem mnemonicParsing="false"  onAction="#onAboutClicked" text="About"/>
         </Menu>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" VBox.vgrow="ALWAYS">

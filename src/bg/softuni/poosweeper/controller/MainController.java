@@ -5,6 +5,7 @@ import bg.softuni.poosweeper.utils.MouseClickHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
@@ -258,5 +259,17 @@ public class MainController {
     @FXML
     private void onQuitClicked(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    @FXML
+    private void onAboutClicked(ActionEvent actionEvent) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText("Team \"Santiago\"");
+        alert.setContentText("Elisaveta Nikolova\n" +
+                "Evgeniya Lyubomirova\n" +
+                "Mariya Vardalieva\n" +
+                "Jahroslav Dimitrov");
+        alert.show();
     }
 }

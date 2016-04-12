@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * Main entry class.
  */
-class Main extends Application {
+public class Main extends Application {
 
     private static final String TITLE = "Poosweeper";
 
