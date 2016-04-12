@@ -10,9 +10,9 @@ public enum Difficulty {
     Medium(16, 16, 40),
     Hard(16, 30, 99),
     ExtremelyHard(28, 60, 200);
-    private int rows;
-    private int columns;
-    private int pooCount;
+    private final int rows;
+    private final int columns;
+    private final int pooCount;
 
     /**
      * Creates an enumeration member with the specified values to represent it.

@@ -4,16 +4,16 @@ import java.util.*;
 
 public class Field {
 
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
-    private int rows;
-    private int columns;
-    private int pooCount;
-    private int totalCount;
+    private final int rows;
+    private final int columns;
+    private final int pooCount;
+    private final int totalCount;
 
-    private CellValue[][] pooCells;
-    private HashSet<Cell> flagsCells;
-    private HashSet<Cell> openedCells;
+    private final CellValue[][] pooCells;
+    private final HashSet<Cell> flagsCells;
+    private final HashSet<Cell> openedCells;
 
     public Field(int rows, int columns, int pooCount) throws IllegalArgumentException {
 
@@ -70,12 +70,12 @@ public class Field {
         return this.openedCells.contains(cell);
     }
 
-    public boolean isFlaged(int row, int col) {
+    public boolean isFlagged(int row, int col) {
         Cell cell = new Cell(row, col);
         return this.flagsCells.contains(cell);
     }
 
-    public CellValue getCellValue(int row, int column) {
+    private CellValue getCellValue(int row, int column) {
 
         if (this.isOutside(row, column)) {
             return CellValue.Empty;

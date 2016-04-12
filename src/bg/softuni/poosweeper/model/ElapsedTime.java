@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  */
 public class ElapsedTime {
 
-    private Consumer<String> action;
+    private final Consumer<String> action;
     private Timer timer;
     private Instant startTime;
 

@@ -3,13 +3,13 @@ package bg.softuni.poosweeper.model;
 import java.util.Objects;
 
 /**
- * An utility class that represents a cell in a 2D matrix. Mostly useful
+ * A model class that represents a cell in a 2D matrix. Mostly useful
  * for hash-based collection uses.
  */
 public class Cell {
 
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
 
     /**
      * Creates an instance with the given row and column coordinates.

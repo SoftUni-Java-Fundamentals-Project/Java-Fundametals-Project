@@ -1,21 +1,17 @@
 package bg.softuni.poosweeper.controller;
 
 import bg.softuni.poosweeper.model.*;
+import bg.softuni.poosweeper.utils.MouseClickHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Labeled;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 /**
  * Main controller class, which is responsible for UI and game logic binding.
@@ -31,34 +27,37 @@ public class MainController {
 
     private Field field;
     private ElapsedTime timer;
+    private boolean gameOver;
     private Button[][] visualButtons;
-    private boolean isGameOver;
     private Stage stage;
 
     /**
-     * Sets a new game field and resets the UI state.
+     * Getter for {@link #gameOver} field.
      *
-     * @param field the game field instance of various difficulty and size.
+     * @return the field value.
      */
-    public void setField(Field field) {
+    public boolean isGameOver() {
+        return this.gameOver;
+    }
 
-        this.isGameOver = false;
-        if (this.timer != null) {
-            this.timer.stop();
-        }
+    /**
+     * Getter for {@link #field} field.
+     *
+     * @return the field value.
+     */
+    public Field getField() {
+        return this.field;
+    }
 
-        this.field = field;
-        this.visualButtons = new Button[field.getRows()][field.getColumns()];
-        this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
-        this.timer = new ElapsedTime(this::updateTimeLabel);
-
-        this.clearVisualGrid();
-        this.addVisualColumns();
-        this.addVisualRows();
-        this.addVisualButtons();
-
-        this.timer.start();
-        this.sizeToScene();
+    /**
+     * Returns the button instance corresponding to the row and column coordinates.
+     *
+     * @param row    the row of the button.
+     * @param column the column of the button.
+     * @return the button instance.
+     */
+    public Labeled getButton(int row, int column) {
+        return this.visualButtons[row][column];
     }
 
     /**
@@ -88,7 +87,66 @@ public class MainController {
      * background timers).
      */
     public void stop() {
+        this.setGameOver();
+    }
+
+    /**
+     * Updates controller state for ended game.
+     */
+    public void setGameOver() {
         this.timer.stop();
+        this.gameOver = true;
+    }
+
+    /**
+     * Displays all poos on the visual grid.
+     */
+    public void showAllPoos() {
+        for (int row = 0; row < this.field.getRows(); row++) {
+            for (int column = 0; column < this.field.getColumns(); column++) {
+                if (this.field.isPoo(row, column) && !this.field.isFlagged(row, column)) {
+                    this.visualButtons[row][column].getStyleClass().add("boom");
+                }
+
+                if (!this.field.isPoo(row, column) && this.field.isFlagged(row, column)) {
+                    this.visualButtons[row][column].getStyleClass().add("noPoo");
+                }
+            }
+        }
+    }
+
+    /**
+     * Updates poo count label with current count.
+     */
+    public void updatePooCountText() {
+        this.pooCountLabel.setText(Integer.toString(this.field.getPooCount()));
+    }
+
+
+    /**
+     * Sets a new game field and resets the UI state.
+     *
+     * @param field the game field instance of various difficulty and size.
+     */
+    private void setField(Field field) {
+
+        this.gameOver = false;
+        if (this.timer != null) {
+            this.timer.stop();
+        }
+
+        this.field = field;
+        this.visualButtons = new Button[field.getRows()][field.getColumns()];
+        this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
+        this.timer = new ElapsedTime(this::updateTimeLabel);
+
+        this.clearVisualGrid();
+        this.addVisualColumns();
+        this.addVisualRows();
+        this.addVisualButtons();
+
+        this.timer.start();
+        this.sizeToScene();
     }
 
     /**
@@ -160,7 +218,7 @@ public class MainController {
     private Button createVisualButton(int row, int column) {
 
         Button cellButton = new Button();
-        cellButton.setOnMouseClicked(getMouseEventEventHandler(row, column));
+        cellButton.setOnMouseClicked(new MouseClickHandler(row, column, this));
         cellButton.setPrefWidth(30.0);
         cellButton.setPrefHeight(30.0);
 
@@ -177,109 +235,24 @@ public class MainController {
         }
     }
 
-    private EventHandler<MouseEvent> getMouseEventEventHandler(int row, int column) {
-        return event -> {
-            if (this.isGameOver || this.field.isOpen(row, column)) {
-                return;
-            }
-
-            if (event.getButton() == MouseButton.PRIMARY && !this.field.isFlaged(row, column)) {
-                if (this.field.isPoo(row, column)) {
-                    endGame(row, column);
-                } else {
-                    openCell(row, column);
-                }
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                toggleFlag(row, column);
-            }
-            this.pooCountLabel.setText(Integer.toString(this.field.getPooCount()));
-
-            if (this.field.isSolved()) {
-                this.winGame();
-            }
-        };
-    }
-
-    private void endGame(int row, int column) {
-
-        this.visualButtons [row][column].getStyleClass().add("clickedBoom");
-        this.showAllPoos();
-
-        Sound.playRandomFartClip();
-
-        this.timer.stop();
-        this.isGameOver = true;
-    }
-
-    private void showAllPoos() {
-        for (int row = 0; row < this.field.getRows(); row++) {
-            for (int column = 0; column < this.field.getColumns(); column++) {
-                if (this.field.isPoo(row, column)&& !this.field.isFlaged(row, column)) {
-                    this.visualButtons[row][column].getStyleClass().add("boom");
-                }
-
-                if (!this.field.isPoo(row, column) && this.field.isFlaged(row, column)) {
-                    this.visualButtons[row][column].getStyleClass().add("noPoo");
-                }
-            }
-        }
-    }
-
-    private void openCell(int row, int column) {
-        for (Cell cell : this.field.getAdjacentCells(row, column)) {
-            Button cellButton = this.visualButtons[cell.getRow()][cell.getColumn()];
-            cellButton.setText(this.field.openCell(cell).toString());
-            cellButton.getStyleClass().remove("flagged");
-            cellButton.getStyleClass().add("clicked");
-        }
-    }
-
-    private void toggleFlag(int row, int column) {
-
-        Button cellButton = this.visualButtons[row][column];
-
-        if (this.field.toggleFlag(row, column)) {
-            cellButton.getStyleClass().add("flagged");
-        } else {
-            cellButton.getStyleClass().remove("flagged");
-        }
-    }
-
-    private void winGame() {
-        Sound.playWinningClip();
-        this.timer.stop();
-        this.isGameOver = true;
-        this.showWinGameAlert();
-    }
-
-    private void showWinGameAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("You are the winner!");
-        alert.setHeaderText("The game you have won!");
-        alert.show();
-    }
-
     @FXML
-    private void onNewGameEasyClicked(ActionEvent actionEvent) throws IOException {
+    private void onNewGameEasyClicked(ActionEvent actionEvent) {
         this.setField(Difficulty.Easy.createField());
     }
 
     @FXML
-    private void onNewGameMediumClicked(ActionEvent actionEvent) throws IOException {
-
+    private void onNewGameMediumClicked(ActionEvent actionEvent) {
         this.setField(Difficulty.Medium.createField());
     }
 
     @FXML
-    private void onNewGameHardClicked(ActionEvent actionEvent) throws IOException {
-
+    private void onNewGameHardClicked(ActionEvent actionEvent) {
         this.setField(Difficulty.Hard.createField());
     }
 
     @FXML
-    private void onNewGameInsaneClicked(ActionEvent actionEvent) throws IOException {
+    private void onNewGameInsaneClicked(ActionEvent actionEvent) {
         this.setField(Difficulty.ExtremelyHard.createField());
-
     }
 
     @FXML
