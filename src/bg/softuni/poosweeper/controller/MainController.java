@@ -267,7 +267,7 @@ public class MainController {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("About");
         alert.setHeaderText("Team \"Santiago\"");
-        alert.setContentText("Elisaveta Nikolova\n" +
+        alert.setContentText("Elisaveta Nikova\n" +
                 "Evgeniya Lyubomirova\n" +
                 "Mariya Vardalieva\n" +
                 "Yaroslav Dimitrov");
