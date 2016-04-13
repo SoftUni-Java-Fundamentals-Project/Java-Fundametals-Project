@@ -15,6 +15,14 @@ public class Field {
     private final HashSet<Cell> flagsCells;
     private final HashSet<Cell> openedCells;
 
+    /**
+     * Creates an instance with a given rows, columns and number of poos
+     *
+     * @param rows     represents the number of rows on the field
+     * @param columns  represents the number of columns on the field
+     * @param pooCount represents the number of poos on the field
+     * @throws IllegalArgumentException
+     */
     public Field(int rows, int columns, int pooCount) throws IllegalArgumentException {
 
         this.rows = rows;
@@ -29,10 +37,20 @@ public class Field {
         placeHints();
     }
 
+    /**
+     * A getter for the {@link #rows} field
+     *
+     * @return the number of the rows of the field
+     */
     public int getRows() {
         return this.rows;
     }
 
+    /**
+     * A getter for the {@link #columns field}
+     *
+     * @return the number of the columns of the field
+     */
     public int getColumns() {
         return this.columns;
     }
