@@ -42,11 +42,11 @@
 .pooCountLabel {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-padding: -50 0;
+    -fx-padding: 0 30px;
 }
 
 .timeLabel {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-padding: 0 30;
+    -fx-padding: 0 30px;
 }

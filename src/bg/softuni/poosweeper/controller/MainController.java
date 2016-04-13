@@ -67,8 +67,6 @@ public class MainController {
         this.field = field;
         this.visualButtons = new Button[field.getRows()][field.getColumns()];
         this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
-        this.pooCountLabel.getStyleClass().add("pooCountLabel");
-        this.timeLabel.getStyleClass().add("timeLabel");
         this.timer = new ElapsedTime(this::updateTimeLabel);
 
         this.clearVisualGrid();
