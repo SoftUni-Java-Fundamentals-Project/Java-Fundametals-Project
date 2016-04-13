@@ -25,7 +25,7 @@ class Sound {
      * Play winning audio clip.
      */
     public static void playWinningClip() {
-        play(FILE_RESOURCES_SOUNDS + "winning" + EXTENSION_MP3);
+        play(FILE_RESOURCES_SOUNDS + "tada" + EXTENSION_MP3);
     }
 
     /**

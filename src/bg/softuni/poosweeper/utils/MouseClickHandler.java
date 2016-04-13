@@ -2,11 +2,23 @@ package bg.softuni.poosweeper.utils;
 
 import bg.softuni.poosweeper.controller.MainController;
 import bg.softuni.poosweeper.model.Cell;
+import bg.softuni.poosweeper.model.Difficulty;
+import bg.softuni.poosweeper.model.Field;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Labeled;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+
+import java.awt.*;
+import java.util.Optional;
 
 /**
  * The mouse click handler class for the game behavior.
@@ -146,9 +158,23 @@ public class MouseClickHandler implements EventHandler<MouseEvent> {
      * Displays an alert box with a "winner" message.
      */
     private void showWinGameAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("You are the winner!");
-        alert.setHeaderText("The game you have won!");
-        alert.show();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Image image = new Image("file:resources/images/rock.png");
+        ImageView imageView = new ImageView(image);
+
+        ButtonType buttonContinue = new ButtonType("Continue");
+        ButtonType buttonQuit = new ButtonType("Quit");
+
+        alert.getButtonTypes().setAll( buttonContinue, buttonQuit );
+        alert.setGraphic(imageView);
+        alert.setTitle("You won!");
+        alert.setHeaderText(" ");
+        alert.setResizable(true);
+        alert.getDialogPane().setMaxSize(0,0);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonQuit) {
+            Platform.exit();
+        }
+
     }
 }
