@@ -1,6 +1,8 @@
 package bg.softuni.poosweeper.controller;
 
-import bg.softuni.poosweeper.model.*;
+import bg.softuni.poosweeper.model.Difficulty;
+import bg.softuni.poosweeper.model.ElapsedTime;
+import bg.softuni.poosweeper.model.Field;
 import bg.softuni.poosweeper.utils.MouseClickHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -48,6 +50,32 @@ public class MainController {
      */
     public Field getField() {
         return this.field;
+    }
+
+    /**
+     * Sets a new game field and resets the UI state.
+     *
+     * @param field the game field instance of various difficulty and size.
+     */
+    private void setField(Field field) {
+
+        this.gameOver = false;
+        if (this.timer != null) {
+            this.timer.stop();
+        }
+
+        this.field = field;
+        this.visualButtons = new Button[field.getRows()][field.getColumns()];
+        this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
+        this.timer = new ElapsedTime(this::updateTimeLabel);
+
+        this.clearVisualGrid();
+        this.addVisualColumns();
+        this.addVisualRows();
+        this.addVisualButtons();
+
+        this.timer.start();
+        this.sizeToScene();
     }
 
     /**
@@ -121,33 +149,6 @@ public class MainController {
      */
     public void updatePooCountText() {
         this.pooCountLabel.setText(Integer.toString(this.field.getPooCount()));
-    }
-
-
-    /**
-     * Sets a new game field and resets the UI state.
-     *
-     * @param field the game field instance of various difficulty and size.
-     */
-    private void setField(Field field) {
-
-        this.gameOver = false;
-        if (this.timer != null) {
-            this.timer.stop();
-        }
-
-        this.field = field;
-        this.visualButtons = new Button[field.getRows()][field.getColumns()];
-        this.pooCountLabel.setText(Integer.toString(field.getPooCount()));
-        this.timer = new ElapsedTime(this::updateTimeLabel);
-
-        this.clearVisualGrid();
-        this.addVisualColumns();
-        this.addVisualRows();
-        this.addVisualButtons();
-
-        this.timer.start();
-        this.sizeToScene();
     }
 
     /**
@@ -269,7 +270,7 @@ public class MainController {
         alert.setContentText("Elisaveta Nikolova\n" +
                 "Evgeniya Lyubomirova\n" +
                 "Mariya Vardalieva\n" +
-                "Jahroslav Dimitrov");
+                "Yaroslav Dimitrov");
         alert.show();
     }
 }
