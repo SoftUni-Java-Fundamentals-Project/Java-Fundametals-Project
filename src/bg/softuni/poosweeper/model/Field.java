@@ -96,9 +96,9 @@ public class Field {
     }
 
     /**
-     *
-     * @param cell
-     * @return
+     * Opens a given Cell
+     * @param cell  represents the cell that has to be opened
+     * @return return the value of the cell
      */
     public CellValue openCell(Cell cell) {
         this.openedCells.add(cell);
@@ -118,11 +118,25 @@ public class Field {
         return this.openedCells.contains(cell);
     }
 
+    /**
+     * Checks if a given cell has a flag
+     *
+     * @param row represents the row of the cell
+     * @param col represents the column of the cell
+     * @return True if the cell has flag. False if the cell does not have a flag
+     */
     public boolean isFlagged(int row, int col) {
         Cell cell = new Cell(row, col);
         return this.flagsCells.contains(cell);
     }
 
+    /**
+     * zxcv
+     *
+     * @param row
+     * @param column
+     * @return
+     */
     private CellValue getCellValue(int row, int column) {
 
         if (this.isOutside(row, column)) {
@@ -132,10 +146,22 @@ public class Field {
         return this.pooCells[row][column];
     }
 
+    /**
+     * Checks if the puzzle is solved
+     *
+     * @return True if it is solved. False if it is not solved
+     */
     public boolean isSolved() {
         return this.openedCells.size() + this.pooCount == this.totalCount;
     }
 
+    /**
+     * A getter for the values of the adjecent Cells to the Cell with the given coordinates
+     *
+     * @param row       represents the row of the given cell
+     * @param column    represents the column of the given cell
+     * @return a Set with the Cells around the current Cell
+     */
     public Collection<Cell> getAdjacentCells(int row, int column) {
 
         if (this.isPoo(row, column)) {
@@ -170,6 +196,11 @@ public class Field {
         return result;
     }
 
+    /**
+     * Places poos on on the field
+     *
+     * @throws IllegalArgumentException
+     */
     private void placePoo() throws IllegalArgumentException {
 
         if (this.totalCount < this.getPooCount()) {
@@ -187,6 +218,10 @@ public class Field {
         }
     }
 
+    /**
+     * Places hints on the filed
+     *
+     */
     private void placeHints() {
         for (int row = 0; row < this.rows; row++) {
             for (int column = 0; column < this.columns; column++) {
@@ -197,10 +232,24 @@ public class Field {
         }
     }
 
+    /**
+     * Checks if the given coordinates are in the field
+     *
+     * @param row       represents given row value
+     * @param column    represents given column value
+     * @return True if the given coordinates are inside the field. False if the coordinates are outside the field
+     */
     private boolean isOutside(int row, int column) {
         return row < 0 || row >= this.rows || column < 0 || column >= this.columns;
     }
 
+    /**
+     * Calculates the number of the Poos in the cells around the cell with the given coordinates
+     *
+     * @param row       represents the row of the given cell
+     * @param column    represents the column of the given cell
+     * @return the numbers of the Poos in the Cells around
+     */
     private CellValue pooNear(int row, int column) {
 
         int hintValue = 0;
@@ -217,10 +266,23 @@ public class Field {
         return CellValue.values()[hintValue];
     }
 
+    /**
+     * Checks if the cell with the given coordinates contains a poo
+     *
+     * @param row       represents the given row
+     * @param column    represents the given column
+     * @return 1 if the cell contains a poo. 0 if the sell does not contains a poo
+     */
     private int getPoo(int row, int column) {
         return this.isPoo(row, column) ? 1 : 0;
     }
 
+    /**
+     *
+     * @param queue
+     * @param row
+     * @param column
+     */
     private void addAdjacentCell(Queue<Cell> queue, int row, int column) {
 
         if (isOutside(row, column) || isPoo(row, column)) {
