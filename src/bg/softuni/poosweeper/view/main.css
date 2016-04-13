@@ -38,3 +38,15 @@
     -fx-background-image: url("file:resources/images/incorrectFlag.png");
     -fx-background-color: #d3d3d3;
 }
+
+.pooCountLabel {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: -50 0;
+}
+
+.timeLabel {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 30;
+}
