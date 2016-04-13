@@ -47,7 +47,7 @@ public class Field {
     }
 
     /**
-     * A getter for the {@link #columns field}
+     * A getter for the {@link #columns} field
      *
      * @return the number of the columns of the field
      */
@@ -55,10 +55,22 @@ public class Field {
         return this.columns;
     }
 
+    /**
+     * A getter for the {@link #pooCount} field
+     *
+     * @return how many poos there are on the field
+     */
     public int getPooCount() {
         return this.pooCount - this.flagsCells.size();
     }
 
+    /**
+     * Sets/removes flag from the cell with the given coordinates
+     *
+     * @param row    represents the row of the cell
+     * @param column represents the column of the cell
+     * @return True if flag is set. False if flag is removed
+     */
     public boolean toggleFlag(int row, int column) {
 
         Cell cell = new Cell(row, column);
@@ -73,16 +85,34 @@ public class Field {
         return false;
     }
 
+    /**
+     * Checks if there is a Poo on the cell with the given coordinates
+     * @param row       represents the row of the cell
+     * @param column    represents the column of the cell
+     * @return True if the cell is Poo and False if it isn't
+     */
     public boolean isPoo(int row, int column) {
         return getCellValue(row, column) == CellValue.Poo;
     }
 
+    /**
+     *
+     * @param cell
+     * @return
+     */
     public CellValue openCell(Cell cell) {
         this.openedCells.add(cell);
         this.flagsCells.remove(cell);
         return this.getCellValue(cell.getRow(), cell.getColumn());
     }
 
+    /**
+     * Checks if the Cell with the give coordinates is opened
+     *
+     * @param row   represents the row of the cell
+     * @param col   represents the column of the cell
+     * @return True if the cell is opened. False if the cell is not opened
+     */
     public boolean isOpen(int row, int col) {
         Cell cell = new Cell(row, col);
         return this.openedCells.contains(cell);
