@@ -131,13 +131,13 @@ public class Field {
     }
 
     /**
-     * zxcv
+     * Gets the {@link CellValue} corresponding to the given row and column.
      *
      * @param row
      * @param column
      * @return
      */
-    private CellValue getCellValue(int row, int column) {
+    public CellValue getCellValue(int row, int column) {
 
         if (this.isOutside(row, column)) {
             return CellValue.Empty;
@@ -156,7 +156,7 @@ public class Field {
     }
 
     /**
-     * A getter for the values of the adjecent Cells to the Cell with the given coordinates
+     * A getter for the values of the adjacent Cells to the Cell with the given coordinates
      *
      * @param row       represents the row of the given cell
      * @param column    represents the column of the given cell

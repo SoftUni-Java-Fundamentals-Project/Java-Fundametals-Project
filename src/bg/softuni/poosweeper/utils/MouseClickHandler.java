@@ -2,27 +2,24 @@ package bg.softuni.poosweeper.utils;
 
 import bg.softuni.poosweeper.controller.MainController;
 import bg.softuni.poosweeper.model.Cell;
-import bg.softuni.poosweeper.model.Difficulty;
-import bg.softuni.poosweeper.model.Field;
+import bg.softuni.poosweeper.model.CellValue;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Labeled;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
-
 import java.util.Optional;
 
 /**
  * The mouse click handler class for the game behavior.
  */
 public class MouseClickHandler implements EventHandler<MouseEvent> {
+
+    private static final String CLICKED_STYLE_CLASS = "clicked";
 
     private final int row;
     private final int column;
@@ -106,9 +103,11 @@ public class MouseClickHandler implements EventHandler<MouseEvent> {
     private void openCell() {
         for (Cell cell : this.controller.getField().getAdjacentCells(row, column)) {
             Labeled cellButton = this.controller.getButton(cell.getRow(), cell.getColumn());
-            cellButton.setText(this.controller.getField().openCell(cell).toString());
-            cellButton.getStyleClass().remove("flagged");
-            cellButton.getStyleClass().add("clicked");
+            CellValue cellValue = this.controller.getField().openCell(cell);
+            cellButton.setText(cellValue.toString());
+            cellButton.getStyleClass().remove(CellValue.Flag.getStyleClass());
+            cellButton.getStyleClass().add(cellValue.getStyleClass());
+            cellButton.getStyleClass().add(CLICKED_STYLE_CLASS);
         }
     }
 
@@ -138,9 +137,9 @@ public class MouseClickHandler implements EventHandler<MouseEvent> {
     private void toggleFlag() {
         Labeled cellButton = this.controller.getButton(row, column);
         if (this.controller.getField().toggleFlag(row, column)) {
-            cellButton.getStyleClass().add("flagged");
+            cellButton.getStyleClass().add(CellValue.Flag.getStyleClass());
         } else {
-            cellButton.getStyleClass().remove("flagged");
+            cellButton.getStyleClass().remove(CellValue.Flag.getStyleClass());
         }
     }
 

@@ -6,31 +6,37 @@ package bg.softuni.poosweeper.model;
  */
 public enum CellValue {
 
-    Empty(' '),
-    One('1'),
-    Two('2'),
-    Three('3'),
-    Four('4'),
-    Five('5'),
-    Six('6'),
-    Seven('7'),
-    Eight('8'),
-    Poo('*'),
-    Flag('P');
+    Empty(' ', ""),
+    One('1', "one"),
+    Two('2', "two"),
+    Three('3', "three"),
+    Four('4', "four"),
+    Five('5', "five"),
+    Six('6', "six"),
+    Seven('7', "seven"),
+    Eight('8', "eight"),
+    Poo('*', "boom"),
+    Flag('P', "flagged");
 
     private final Character value;
+    private final String styleClass;
 
     /**
      * Creates an enumeration member with the specified char value to represent it.
      *
      * @param value the character representation.
      */
-    CellValue(Character value) {
+    CellValue(Character value, String styleClass) {
         this.value = value;
+        this.styleClass = styleClass;
     }
 
     @Override
     public String toString() {
         return this.value.toString();
+    }
+
+    public String getStyleClass() {
+        return this.styleClass;
     }
 }

@@ -9,7 +9,7 @@ public enum Difficulty {
     Easy(8, 8, 10),
     Medium(16, 16, 40),
     Hard(16, 30, 99),
-    ExtremelyHard(28, 60, 200);
+    ExtremelyHard(28, 60, 500);
     private final int rows;
     private final int columns;
     private final int pooCount;

@@ -134,11 +134,12 @@ public class MainController {
         for (int row = 0; row < this.field.getRows(); row++) {
             for (int column = 0; column < this.field.getColumns(); column++) {
                 if (this.field.isPoo(row, column) && !this.field.isFlagged(row, column)) {
-                    this.visualButtons[row][column].getStyleClass().add("boom");
+                    this.visualButtons[row][column].getStyleClass().add(
+                            this.field.getCellValue(row, column).getStyleClass());
                 }
 
                 if (!this.field.isPoo(row, column) && this.field.isFlagged(row, column)) {
-                    this.visualButtons[row][column].getStyleClass().add("noPoo");
+                    this.visualButtons[row][column].getStyleClass().add("mistake");
                 }
             }
         }

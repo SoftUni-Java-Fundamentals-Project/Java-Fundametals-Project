@@ -34,7 +34,7 @@
     -fx-background-color: red;
 }
 
-.button.noPoo {
+.button.mistake {
     -fx-background-image: url("file:resources/images/incorrectFlag.png");
     -fx-background-color: #d3d3d3;
 }
@@ -50,3 +50,12 @@
     -fx-font-weight: bold;
     -fx-padding: 0 30px;
 }
+
+.one { -fx-text-fill: #006400; }
+.two { -fx-text-fill: #8a2be2; }
+.three { -fx-text-fill: #ff00ff; }
+.four { -fx-text-fill: #ff4500; }
+.five { -fx-text-fill: #dc143c; }
+.six { -fx-text-fill: #cd853f; }
+.seven { -fx-text-fill: #8b4513; }
+.eight { -fx-text-fill: #000000; }
