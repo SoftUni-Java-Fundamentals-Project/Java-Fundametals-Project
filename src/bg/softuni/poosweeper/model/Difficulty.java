@@ -6,7 +6,7 @@ package bg.softuni.poosweeper.model;
  */
 public enum Difficulty {
 
-    Easy(8, 8, 10),
+    Easy(8, 8, 2),
     Medium(16, 16, 40),
     Hard(16, 30, 99),
     ExtremelyHard(28, 60, 500);
