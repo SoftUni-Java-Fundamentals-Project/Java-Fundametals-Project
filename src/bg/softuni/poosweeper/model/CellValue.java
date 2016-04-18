@@ -24,7 +24,8 @@ public enum CellValue {
     /**
      * Creates an enumeration member with the specified char value to represent it.
      *
-     * @param value the character representation.
+     * @param value      the character representation.
+     * @param styleClass the style class for the cell value.
      */
     CellValue(Character value, String styleClass) {
         this.value = value;

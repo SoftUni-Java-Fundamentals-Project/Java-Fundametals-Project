@@ -24,9 +24,8 @@ public class Field {
      * @param rows     represents the number of rows on the field.
      * @param columns  represents the number of columns on the field.
      * @param pooCount represents the number of poos on the field.
-     * @throws IllegalArgumentException
      */
-    public Field(int rows, int columns, int pooCount) throws IllegalArgumentException {
+    public Field(int rows, int columns, int pooCount) {
 
         this.rows = rows;
         this.columns = columns;
@@ -204,7 +203,7 @@ public class Field {
     /**
      * Places poos randomly on the field.
      */
-    private void placePoo() throws IllegalArgumentException {
+    private void placePoo() {
 
         if (this.totalCount < this.getPooCount()) {
             throw new IllegalArgumentException("The poo's count can't be greater than the count of filed cells!");
