@@ -255,7 +255,7 @@ public class MainController {
 
     @FXML
     private void onNewGameInsaneClicked(ActionEvent actionEvent) {
-        this.setField(Difficulty.ExtremelyHard.createField());
+        this.setField(Difficulty.Insane.createField());
     }
 
     @FXML
